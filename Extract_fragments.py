@@ -42,9 +42,9 @@ def main(screenshots, volume, movie, out_dir):
     print(f"Dataset X, Y, Z size: {dataset.getXSize()}, {dataset.getYSize()}, {dataset.getZSize()}")
     print(f"Nb of labels: {labels.getSize()}")
     
-    # Get 3d view
+    # Get 3d view and layout name
     layout_full_name, view_3d = get_3d_view()
-    for label in labels: # On itere sur la liste des labels
+    for label in labels:
         print(f"Label: {label}")
         roi = MultiROILabelHelper.extractROIForLabel(mroi, label) 
         print(f"ROI size: {roi.getVoxelCount(0)}")
@@ -119,21 +119,16 @@ def export_screenshots(view_3d, layout_full_name, label, roi, cropped_dataset, o
         camera.rotateAroundAxis(rotationAxis, rotationCenter, angle)
         viewLogger.setCameraFromLayoutGenealogicalName(layout_full_name, camera)
         view_3d.saveScreenshot(os.path.join(out_dir, f"Object_{label}_screenshot_{i*angle}.png"), scale=1.0)
-    # TODO: reset view to default
     return
 
 def export_movie(cropped_dataset, view_3d, label, out_dir):
     try:
         orsQtLayout = OrsQtLayout()
-        #export_movie(label, out_dir) # Temporarily disabled
         orsQtLayout.openMovieMaker()
         
         DatasetHelper.setIsVisibleIn2D(cropped_dataset, view_3d, True)
         DatasetHelper.setIsVisibleIn3D(cropped_dataset, view_3d, True)
-        # cropped_dataset.setVisibilityDirty()
-        # cropped_dataset.propagateVisibilityDirty(True)
         DatasetHelper.fitToView(cropped_dataset, view_3d) # Not in the API
-        # cropped_dataset.refreshAllParentViews()
         
         orsQtLayout.forceDraw()
         orsQtLayout.addMovieRotationKeyFrameInCurrentView(3, 360, 3, False)            
@@ -158,4 +153,4 @@ if __name__ == "__main__":
     volume = sys.argv[2] # Export ORS object
     movie = sys.argv[3] # Export 3D animation
     out_dir = sys.argv[4] # Where?
-    main(out_dir, screenshots, volume, movie)
+    main(screenshots, volume, movie, out_dir)
