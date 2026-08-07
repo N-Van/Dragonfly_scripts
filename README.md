@@ -10,7 +10,7 @@ Case use: many small segmented objects whose 3D representation is of interest (e
 
 **Context**: a single channel and a single MultiROI already open (with the same geometry) ; a single 3D view in the layout. 
 
-**Principle**: The script extracts each elemnent from the multiROI to an ROI, dilates it, crops the dataset, renders the cropped dataset and produces output.
+**Principle**: The script extracts each element from the multiROI to an ROI, dilates it, crops the dataset, renders the cropped dataset and produces output.
 
 To run this script:
  - Copy `Export_fragments.py` to a folder of your choice.
